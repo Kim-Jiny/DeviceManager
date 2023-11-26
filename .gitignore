@@ -1,0 +1,4 @@
+*.plist
+Info.plist
+GoogleService-Info.plist
+project.xcworkspace/
