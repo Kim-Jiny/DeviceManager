@@ -13,7 +13,7 @@ extension Color {
         static let white = Color(hex: "#f0f1f3")
         static let black = Color(hex: "#181818")
         
-        static let placeholder = Color(hex: "#d8d8da")
+        static let placeholder = Color(hex: "#c0c0c2")
         
         
         static let main = Color(hex: "#5358c1")

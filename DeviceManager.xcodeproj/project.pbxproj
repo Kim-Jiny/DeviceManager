@@ -23,6 +23,9 @@
 		3063A0B52B12388F00485662 /* ColoredTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3063A0B42B12388F00485662 /* ColoredTextView.swift */; };
 		3063A0B72B12409F00485662 /* DMSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3063A0B62B12409F00485662 /* DMSignUpView.swift */; };
 		3063A0B92B1243D800485662 /* UnderlinedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3063A0B82B1243D800485662 /* UnderlinedText.swift */; };
+		30DEDDE42B130AB900EC6B3F /* DMCNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DEDDE32B130AB900EC6B3F /* DMCNumberView.swift */; };
+		30DEDDE62B130EA100EC6B3F /* DMPPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DEDDE52B130EA100EC6B3F /* DMPPView.swift */; };
+		30DEDDE92B13156800EC6B3F /* DeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DEDDE82B13156800EC6B3F /* DeviceListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		3063A0B42B12388F00485662 /* ColoredTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredTextView.swift; sourceTree = "<group>"; };
 		3063A0B62B12409F00485662 /* DMSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMSignUpView.swift; sourceTree = "<group>"; };
 		3063A0B82B1243D800485662 /* UnderlinedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedText.swift; sourceTree = "<group>"; };
+		30DEDDE32B130AB900EC6B3F /* DMCNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMCNumberView.swift; sourceTree = "<group>"; };
+		30DEDDE52B130EA100EC6B3F /* DMPPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMPPView.swift; sourceTree = "<group>"; };
+		30DEDDE82B13156800EC6B3F /* DeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +175,7 @@
 		3063A0A82B122FAD00485662 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				30DEDDE72B1314F300EC6B3F /* DeviceListView */,
 				3063A0A92B122FB500485662 /* Login */,
 			);
 			path = Main;
@@ -179,6 +186,8 @@
 			children = (
 				3063A0AA2B122FCF00485662 /* DMLoginView.swift */,
 				3063A0B62B12409F00485662 /* DMSignUpView.swift */,
+				30DEDDE32B130AB900EC6B3F /* DMCNumberView.swift */,
+				30DEDDE52B130EA100EC6B3F /* DMPPView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -200,6 +209,14 @@
 				3063A0B82B1243D800485662 /* UnderlinedText.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		30DEDDE72B1314F300EC6B3F /* DeviceListView */ = {
+			isa = PBXGroup;
+			children = (
+				30DEDDE82B13156800EC6B3F /* DeviceListView.swift */,
+			);
+			path = DeviceListView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,10 +351,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3063A07B2B121DBA00485662 /* ContentView.swift in Sources */,
+				30DEDDE62B130EA100EC6B3F /* DMPPView.swift in Sources */,
 				3063A0792B121DBA00485662 /* DeviceManagerApp.swift in Sources */,
 				3063A0B92B1243D800485662 /* UnderlinedText.swift in Sources */,
 				3063A0B52B12388F00485662 /* ColoredTextView.swift in Sources */,
 				3063A0B72B12409F00485662 /* DMSignUpView.swift in Sources */,
+				30DEDDE42B130AB900EC6B3F /* DMCNumberView.swift in Sources */,
+				30DEDDE92B13156800EC6B3F /* DeviceListView.swift in Sources */,
 				3063A0B32B12337300485662 /* DMColor.swift in Sources */,
 				3063A0AD2B12328F00485662 /* Extension+Color.swift in Sources */,
 				3063A0AB2B122FCF00485662 /* DMLoginView.swift in Sources */,

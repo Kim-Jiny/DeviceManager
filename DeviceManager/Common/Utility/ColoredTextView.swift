@@ -21,7 +21,7 @@ struct ColoredTextView: UIViewRepresentable {
     var isEditable: Bool = true
     var isUserInteractionEnabled: Bool = true
     var lineFragmentPadding: CGFloat = 0
-    var textContainerInset: UIEdgeInsets = .init(top: 20, left: 10, bottom: 20, right: 10)
+    var textContainerInset: UIEdgeInsets = .init(top: 20, left: 15, bottom: 20, right: 10)
     
     public func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()

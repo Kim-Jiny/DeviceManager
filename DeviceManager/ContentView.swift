@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isShowLoginView: Bool = false
+    @State var isShowGroupView: Bool = false
     @State var isShowMainView: Bool = false
     
     var body: some View {
@@ -24,10 +24,10 @@ struct ContentView: View {
             .onAppear {
                 // 자동로그인 정보가 있는지 체크해서 로그인 페이지로 or 메인으로 보내줌.
                 // 현재는 로그인화면부터 구현
-                isShowLoginView = true
+                isShowGroupView = true
             }
-            .fullScreenCover(isPresented: $isShowLoginView) {
-                DMLoginView()
+            .fullScreenCover(isPresented: $isShowGroupView) {
+                DMCNumberView()
             }
         }
     }

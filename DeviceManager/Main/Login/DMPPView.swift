@@ -1,15 +1,15 @@
 //
-//  DMSignUpView.swift
+//  DMPPView.swift
 //  DeviceManager
 //
-//  Created by 김미진 on 11/25/23.
+//  Created by 김미진 on 11/26/23.
 //
 
 import Foundation
 import SwiftUI
 
-struct DMSignUpView: View {
-    @Binding var isShowSignUp: Bool
+struct DMPPView: View {
+    @Binding var isShowPPView: Bool
     
     var body: some View {
         ZStack {
@@ -22,3 +22,4 @@ struct DMSignUpView: View {
         }
     }
 }
+
