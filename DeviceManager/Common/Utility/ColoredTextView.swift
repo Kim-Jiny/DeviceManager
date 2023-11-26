@@ -51,6 +51,7 @@ struct ColoredTextView: UIViewRepresentable {
         textView.textContainerInset = textContainerInset
         textView.delegate = context.coordinator
         textView.backgroundColor = UIColor(Color.DMColor.white)
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         if let placeholder = placeholder, text == "" {

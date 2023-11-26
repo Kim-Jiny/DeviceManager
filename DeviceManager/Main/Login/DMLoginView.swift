@@ -24,7 +24,7 @@ struct DMLoginView: View {
                     .font(.headline)
 
                 ColoredTextView(text: $emailForID, placeholder: "Enter your Email", cornerRadius: 25)
-                    .frame(width: UIScreen.main.bounds.width - 90, height: 50)
+                    .frame(width: 300, height: 50)
                 
                 Spacer()
                     .frame(height: 20)
@@ -33,7 +33,7 @@ struct DMLoginView: View {
                     .font(.headline)
                 
                 ColoredTextView(text: $password, placeholder: "Enter your password", cornerRadius: 25)
-                    .frame(width: UIScreen.main.bounds.width - 90, height: 50)
+                    .frame(width: 300, height: 50)
                 
                 Spacer()
                     .frame(height: 50)
@@ -47,7 +47,7 @@ struct DMLoginView: View {
                             .font(.headline)
                             .foregroundStyle(Color.DMColor.white)
                     })
-                    .frame(width: UIScreen.main.bounds.width - 90, height: 50)
+                    .frame(width: 300, height: 50)
                     .cornerRadius(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
@@ -62,7 +62,7 @@ struct DMLoginView: View {
                 VStack(spacing: 0) {
                     Text("가입 된 계정이 없으신가요?\n각 그룹 관리자에게 문의해 주세요.")
                         .font(.headline)
-                        .frame(width: UIScreen.main.bounds.width - 90)
+                        .frame(width: 300)
                         .foregroundStyle(Color.DMColor.white)
 //                    Button(action: {
 //                        isShowSignUp = true

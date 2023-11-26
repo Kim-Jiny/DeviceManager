@@ -18,6 +18,7 @@ extension Color {
         
         static let main = Color(hex: "#5358c1")
         static let sub = Color(hex: "#989fc0")
+        static let dark = Color(hex: "#353993")
         static let pointCarrot = Color(hex: "#f89840")
     }
 }
