@@ -35,6 +35,7 @@
 		30DEDE042B137AEF00EC6B3F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 30DEDE032B137AEF00EC6B3F /* FirebaseMessaging */; };
 		30DEDE062B137AEF00EC6B3F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 30DEDE052B137AEF00EC6B3F /* FirebaseStorage */; };
 		30DEDE082B137B5800EC6B3F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 30DEDE072B137B5800EC6B3F /* FirebaseFirestore */; };
+		30DEDE0A2B14C16200EC6B3F /* DMCNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DEDE092B14C16200EC6B3F /* DMCNumberViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		30DEDDE52B130EA100EC6B3F /* DMPPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMPPView.swift; sourceTree = "<group>"; };
 		30DEDDE82B13156800EC6B3F /* DeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListView.swift; sourceTree = "<group>"; };
 		30DEDDEA2B135D3500EC6B3F /* DeviceManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeviceManager.entitlements; sourceTree = "<group>"; };
+		30DEDE092B14C16200EC6B3F /* DMCNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMCNumberViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				3063A0B62B12409F00485662 /* DMSignUpView.swift */,
 				30DEDDE32B130AB900EC6B3F /* DMCNumberView.swift */,
 				30DEDDE52B130EA100EC6B3F /* DMPPView.swift */,
+				30DEDE092B14C16200EC6B3F /* DMCNumberViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 			files = (
 				3063A07B2B121DBA00485662 /* ContentView.swift in Sources */,
 				30DEDDE62B130EA100EC6B3F /* DMPPView.swift in Sources */,
+				30DEDE0A2B14C16200EC6B3F /* DMCNumberViewModel.swift in Sources */,
 				3063A0792B121DBA00485662 /* DeviceManagerApp.swift in Sources */,
 				3063A0B92B1243D800485662 /* UnderlinedText.swift in Sources */,
 				3063A0B52B12388F00485662 /* ColoredTextView.swift in Sources */,
