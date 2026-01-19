@@ -157,6 +157,32 @@ struct PendingRental: Codable {
     let userName: String?
     let status: String
     let isMine: Bool
+
+    var statusDisplay: String {
+        switch status {
+        case "PENDING":
+            return isMine ? "내 신청 대기" : "신청 대기 중"
+        case "APPROVED":
+            return isMine ? "내 대여 승인됨" : "대여 승인됨"
+        case "ACTIVE":
+            return isMine ? "내가 사용 중" : "사용 중"
+        default:
+            return status
+        }
+    }
+
+    var statusColor: String {
+        switch status {
+        case "PENDING":
+            return "orange"
+        case "APPROVED":
+            return "blue"
+        case "ACTIVE":
+            return "green"
+        default:
+            return "gray"
+        }
+    }
 }
 
 // MARK: - Device List Response

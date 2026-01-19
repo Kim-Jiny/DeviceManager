@@ -12,6 +12,12 @@ final class MyRentalsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
+    // Return functionality
+    @Published var showReturnConfirmation: Bool = false
+    @Published var selectedRentalForReturn: Rental?
+    @Published var returningRentalId: Int?
+    @Published var successMessage: String?
+
     private var currentPage: Int = 1
     private var totalPages: Int = 1
     private let limit: Int = 20
@@ -61,5 +67,40 @@ final class MyRentalsViewModel: ObservableObject {
 
     func refresh() async {
         await loadRentals(reset: true)
+    }
+
+    // MARK: - Return Functionality
+
+    func prepareReturn(_ rental: Rental) {
+        selectedRentalForReturn = rental
+        showReturnConfirmation = true
+    }
+
+    func returnRental() async {
+        guard let rental = selectedRentalForReturn else { return }
+
+        returningRentalId = rental.id
+        errorMessage = nil
+
+        do {
+            try await rentalRepository.returnDevice(rentalId: rental.id, condition: nil)
+
+            successMessage = "\(rental.device.name) 반납이 완료되었습니다."
+
+            // Refresh to get updated list and statistics
+            await loadRentals(reset: true)
+
+        } catch let error as NetworkError {
+            errorMessage = error.localizedDescription
+        } catch {
+            errorMessage = "반납 처리에 실패했습니다."
+        }
+
+        returningRentalId = nil
+        selectedRentalForReturn = nil
+    }
+
+    var canReturn: (Rental) -> Bool = { rental in
+        rental.status == .approved || rental.status == .active
     }
 }

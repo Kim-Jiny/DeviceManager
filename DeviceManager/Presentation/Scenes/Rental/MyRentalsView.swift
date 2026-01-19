@@ -56,6 +56,32 @@ struct MyRentalsView: View {
         .refreshable {
             await viewModel.refresh()
         }
+        .confirmationDialog(
+            "반납 확인",
+            isPresented: $viewModel.showReturnConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("반납하기", role: .destructive) {
+                Task {
+                    await viewModel.returnRental()
+                }
+            }
+            Button("취소", role: .cancel) {}
+        } message: {
+            if let rental = viewModel.selectedRentalForReturn {
+                Text("\(rental.device.name)을(를) 반납하시겠습니까?")
+            }
+        }
+        .alert("성공", isPresented: .init(
+            get: { viewModel.successMessage != nil },
+            set: { if !$0 { viewModel.successMessage = nil } }
+        )) {
+            Button("확인", role: .cancel) {}
+        } message: {
+            if let message = viewModel.successMessage {
+                Text(message)
+            }
+        }
     }
 
     // MARK: - Statistics Header
@@ -73,7 +99,14 @@ struct MyRentalsView: View {
         ScrollView {
             LazyVStack(spacing: 12) {
                 ForEach(viewModel.rentals) { rental in
-                    RentalRow(rental: rental)
+                    RentalRow(
+                        rental: rental,
+                        isReturning: viewModel.returningRentalId == rental.id,
+                        canReturn: viewModel.canReturn(rental),
+                        onReturn: {
+                            viewModel.prepareReturn(rental)
+                        }
+                    )
                 }
             }
             .padding()
@@ -108,6 +141,9 @@ private struct StatCard: View {
 // MARK: - Rental Row
 private struct RentalRow: View {
     let rental: Rental
+    let isReturning: Bool
+    let canReturn: Bool
+    let onReturn: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -161,6 +197,32 @@ private struct RentalRow: View {
                         .font(.caption)
                         .foregroundColor(.red)
                 }
+            }
+
+            // Return Button
+            if canReturn {
+                Button {
+                    onReturn()
+                } label: {
+                    HStack {
+                        if isReturning {
+                            ProgressView()
+                                .tint(.white)
+                                .scaleEffect(0.8)
+                        } else {
+                            Image(systemName: "arrow.uturn.left")
+                        }
+                        Text("반납하기")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(Color.orange)
+                    .cornerRadius(8)
+                }
+                .disabled(isReturning)
             }
         }
         .padding()

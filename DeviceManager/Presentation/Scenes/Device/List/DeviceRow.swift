@@ -111,17 +111,30 @@ struct DeviceRow: View {
                 .background(statusColor)
                 .cornerRadius(8)
 
-            // 대여 신청 대기 중 뱃지
-            if device.hasPendingRental {
-                Text(device.isMyPendingRental ? "내 신청 대기" : "신청 대기 중")
+            // 대여 신청 관련 뱃지 (실제 status에 따라 표시)
+            if let pendingRental = device.pendingRental {
+                Text(pendingRental.statusDisplay)
                     .font(.caption2)
                     .fontWeight(.medium)
                     .foregroundColor(.white)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(device.isMyPendingRental ? Color.blue : Color.purple)
+                    .background(pendingRentalColor(pendingRental))
                     .cornerRadius(8)
             }
+        }
+    }
+
+    private func pendingRentalColor(_ rental: PendingRental) -> Color {
+        switch rental.status {
+        case "PENDING":
+            return rental.isMine ? .orange : .purple
+        case "APPROVED":
+            return .blue
+        case "ACTIVE":
+            return .green
+        default:
+            return .gray
         }
     }
 
@@ -184,7 +197,7 @@ struct DeviceRow: View {
                 specs: nil,
                 isFavorite: true,
                 currentRental: nil,
-                pendingRental: PendingRental(rentalId: 1, userId: 1, userName: "홍길동", status: "PENDING", isMine: true),
+                pendingRental: PendingRental(rentalId: 1, userId: 1, userName: "홍길동", status: "APPROVED", isMine: true),
                 createdAt: nil,
                 updatedAt: nil
             ))
