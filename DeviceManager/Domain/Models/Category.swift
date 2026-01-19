@@ -12,11 +12,6 @@ struct Category: Codable, Identifiable, Hashable {
     let description: String?
     let createdAt: String?
 
-    enum CodingKeys: String, CodingKey {
-        case id, name, description
-        case createdAt = "created_at"
-    }
-
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

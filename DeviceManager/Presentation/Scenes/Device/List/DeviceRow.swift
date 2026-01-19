@@ -100,14 +100,29 @@ struct DeviceRow: View {
 
     // MARK: - Status Badge
     private var statusBadge: some View {
-        Text(device.status.displayName)
-            .font(.caption2)
-            .fontWeight(.medium)
-            .foregroundColor(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(statusColor)
-            .cornerRadius(8)
+        HStack(spacing: 4) {
+            // 기본 상태 뱃지
+            Text(device.status.displayName)
+                .font(.caption2)
+                .fontWeight(.medium)
+                .foregroundColor(.white)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(statusColor)
+                .cornerRadius(8)
+
+            // 대여 신청 대기 중 뱃지
+            if device.hasPendingRental {
+                Text(device.isMyPendingRental ? "내 신청 대기" : "신청 대기 중")
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(device.isMyPendingRental ? Color.blue : Color.purple)
+                    .cornerRadius(8)
+            }
+        }
     }
 
     private var statusColor: Color {
@@ -147,6 +162,7 @@ struct DeviceRow: View {
                 specs: nil,
                 isFavorite: false,
                 currentRental: nil,
+                pendingRental: nil,
                 createdAt: nil,
                 updatedAt: nil
             ))
@@ -160,7 +176,7 @@ struct DeviceRow: View {
                 deviceToken: nil,
                 categoryId: 2,
                 categoryName: "Phone",
-                status: .rented,
+                status: .available,
                 purchaseDate: nil,
                 warrantyEndDate: nil,
                 description: nil,
@@ -168,6 +184,29 @@ struct DeviceRow: View {
                 specs: nil,
                 isFavorite: true,
                 currentRental: nil,
+                pendingRental: PendingRental(rentalId: 1, userId: 1, userName: "홍길동", status: "PENDING", isMine: true),
+                createdAt: nil,
+                updatedAt: nil
+            ))
+
+            DeviceRow(device: Device(
+                id: 3,
+                companyId: 1,
+                name: "iPad Pro 12.9",
+                model: "M2, 256GB",
+                serialNumber: "DEF456",
+                deviceToken: nil,
+                categoryId: 3,
+                categoryName: "태블릿",
+                status: .rented,
+                purchaseDate: nil,
+                warrantyEndDate: nil,
+                description: nil,
+                imageUrl: nil,
+                specs: nil,
+                isFavorite: false,
+                currentRental: nil,
+                pendingRental: nil,
                 createdAt: nil,
                 updatedAt: nil
             ))

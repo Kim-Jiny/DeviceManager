@@ -8,6 +8,7 @@ import SwiftUI
 struct DeviceDetailView: View {
     @StateObject var viewModel: DeviceDetailViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var showRentalRequest = false
 
     var body: some View {
         ZStack {
@@ -44,7 +45,7 @@ struct DeviceDetailView: View {
                         // Action Button
                         if device.status == .available {
                             DMButton(title: "대여 신청", style: .primary) {
-                                // Handle rental request
+                                showRentalRequest = true
                             }
                             .padding(.horizontal)
                         }
@@ -63,6 +64,11 @@ struct DeviceDetailView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .task {
             await viewModel.loadDevice()
+        }
+        .sheet(isPresented: $showRentalRequest) {
+            if let device = viewModel.device {
+                RentalRequestView(viewModel: RentalRequestViewModel(device: device))
+            }
         }
     }
 
@@ -155,22 +161,10 @@ struct DeviceDetailView: View {
                 .font(.headline)
                 .foregroundColor(.white)
 
-            if let specs = device.specs {
+            if let specs = device.specs, !specs.isEmpty {
                 VStack(spacing: 8) {
-                    if let cpu = specs.cpu {
-                        specRow(title: "CPU", value: cpu)
-                    }
-                    if let ram = specs.ram {
-                        specRow(title: "RAM", value: ram)
-                    }
-                    if let storage = specs.storage {
-                        specRow(title: "저장공간", value: storage)
-                    }
-                    if let display = specs.display {
-                        specRow(title: "디스플레이", value: display)
-                    }
-                    if let os = specs.os {
-                        specRow(title: "OS", value: os)
+                    ForEach(specs.allSpecs, id: \.key) { spec in
+                        specRow(title: spec.key, value: spec.value)
                     }
                 }
             }

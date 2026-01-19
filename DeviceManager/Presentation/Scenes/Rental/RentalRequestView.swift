@@ -177,6 +177,7 @@ struct RentalRequestView: View {
                     specs: nil,
                     isFavorite: false,
                     currentRental: nil,
+                    pendingRental: nil,
                     createdAt: nil,
                     updatedAt: nil
                 )

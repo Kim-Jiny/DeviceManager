@@ -35,6 +35,10 @@ final class CompanyNumberViewModel: ObservableObject {
 
     init(authRepository: AuthRepositoryProtocol = AuthRepository()) {
         self.authRepository = authRepository
+
+        #if DEBUG
+        self.companyCode = "test1"
+        #endif
     }
 
     // MARK: - Public Methods

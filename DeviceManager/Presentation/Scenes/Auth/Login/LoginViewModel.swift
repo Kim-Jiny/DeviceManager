@@ -50,6 +50,11 @@ final class LoginViewModel: ObservableObject {
     ) {
         self.companyCode = companyCode
         self.authRepository = authRepository
+
+        #if DEBUG
+        self.email = "user1@test.test"
+        self.password = "test123"
+        #endif
     }
 
     // MARK: - Public Methods

@@ -51,6 +51,7 @@ final class MainCoordinator: ObservableObject, Coordinator {
 enum MainTab: String, CaseIterable {
     case devices = "devices"
     case rentals = "rentals"
+    case admin = "admin"
     case profile = "profile"
 
     var title: String {
@@ -59,6 +60,8 @@ enum MainTab: String, CaseIterable {
             return "디바이스"
         case .rentals:
             return "내 대여"
+        case .admin:
+            return "관리"
         case .profile:
             return "프로필"
         }
@@ -70,6 +73,8 @@ enum MainTab: String, CaseIterable {
             return "laptopcomputer.and.iphone"
         case .rentals:
             return "list.clipboard"
+        case .admin:
+            return "gearshape.2"
         case .profile:
             return "person.circle"
         }
@@ -79,6 +84,7 @@ enum MainTab: String, CaseIterable {
 // MARK: - Main Coordinator View
 struct MainCoordinatorView: View {
     @ObservedObject var coordinator: MainCoordinator
+    private let tokenStorage = TokenStorage.shared
 
     var body: some View {
         TabView(selection: $coordinator.selectedTab) {
@@ -105,6 +111,15 @@ struct MainCoordinatorView: View {
                 Label(MainTab.rentals.title, systemImage: MainTab.rentals.icon)
             }
             .tag(MainTab.rentals)
+
+            // Admin tab (only for managers and admins)
+            if tokenStorage.isManager {
+                AdminView(userRole: tokenStorage.currentUserRole)
+                    .tabItem {
+                        Label(MainTab.admin.title, systemImage: MainTab.admin.icon)
+                    }
+                    .tag(MainTab.admin)
+            }
 
             NavigationStack {
                 ProfileView(

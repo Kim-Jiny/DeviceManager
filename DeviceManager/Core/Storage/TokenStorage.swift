@@ -121,4 +121,19 @@ final class TokenStorage: TokenStorageProtocol {
     var currentCompanyName: String {
         getUser()?.company?.name ?? "회사"
     }
+
+    /// 현재 사용자 역할 반환
+    var currentUserRole: UserRole {
+        getUser()?.role ?? .user
+    }
+
+    /// 관리자 여부 확인
+    var isManager: Bool {
+        currentUserRole.isManager
+    }
+
+    /// 최고 관리자 여부 확인
+    var isAdmin: Bool {
+        currentUserRole.isAdmin
+    }
 }

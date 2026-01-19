@@ -18,6 +18,7 @@ struct User: Codable, Identifiable {
 // MARK: - User Role
 enum UserRole: String, Codable {
     case user = "USER"
+    case companyManager = "COMPANY_MANAGER"
     case companyAdmin = "COMPANY_ADMIN"
     case systemAdmin = "SYSTEM_ADMIN"
 
@@ -25,10 +26,30 @@ enum UserRole: String, Codable {
         switch self {
         case .user:
             return "일반 사용자"
+        case .companyManager:
+            return "매니저"
         case .companyAdmin:
-            return "회사 관리자"
+            return "관리자"
         case .systemAdmin:
             return "시스템 관리자"
+        }
+    }
+
+    var isManager: Bool {
+        switch self {
+        case .companyManager, .companyAdmin, .systemAdmin:
+            return true
+        case .user:
+            return false
+        }
+    }
+
+    var isAdmin: Bool {
+        switch self {
+        case .companyAdmin, .systemAdmin:
+            return true
+        case .user, .companyManager:
+            return false
         }
     }
 }

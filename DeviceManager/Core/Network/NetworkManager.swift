@@ -7,6 +7,7 @@ import Foundation
 
 protocol NetworkManagerProtocol {
     func request<T: Decodable>(_ endpoint: APIEndpoint, body: Encodable?, queryParams: [String: String]?) async throws -> T
+    func request<T: Decodable>(endpoint: APIEndpoint, customRequest: URLRequest) async throws -> T
 }
 
 final class NetworkManager: NetworkManagerProtocol {
@@ -62,12 +63,31 @@ final class NetworkManager: NetworkManagerProtocol {
             request.httpBody = try encoder.encode(body)
         }
 
+        #if DEBUG
+        print("🌐 [\(endpoint.method.rawValue)] \(url.absoluteString)")
+        if let authHeader = request.value(forHTTPHeaderField: "Authorization") {
+            print("🔑 Authorization: \(authHeader)")
+        } else {
+            print("🔑 Authorization: (none)")
+        }
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            print("📤 Request Body: \(bodyString)")
+        }
+        #endif
+
         do {
             let (data, response) = try await session.data(for: request)
 
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.unknown(NSError(domain: "Invalid response", code: -1))
             }
+
+            #if DEBUG
+            print("📥 Response [\(httpResponse.statusCode)]")
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("📥 Response Body: \(responseString)")
+            }
+            #endif
 
             switch httpResponse.statusCode {
             case 200...299:
@@ -76,6 +96,9 @@ final class NetworkManager: NetworkManagerProtocol {
                 do {
                     return try decoder.decode(T.self, from: data)
                 } catch {
+                    #if DEBUG
+                    print("❌ Decoding Error: \(error)")
+                    #endif
                     throw NetworkError.decodingError(error)
                 }
             case 401:
@@ -87,6 +110,84 @@ final class NetworkManager: NetworkManagerProtocol {
                 throw NetworkError.notFound
             default:
                 // Try to parse error message from response
+                if let errorResponse = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+                    throw NetworkError.serverError(errorResponse.error ?? errorResponse.message ?? "서버 오류가 발생했습니다.")
+                }
+                throw NetworkError.serverError("서버 오류가 발생했습니다. (코드: \(httpResponse.statusCode))")
+            }
+        } catch let error as NetworkError {
+            #if DEBUG
+            print("❌ Network Error: \(error.localizedDescription)")
+            #endif
+            throw error
+        } catch {
+            #if DEBUG
+            print("❌ Unknown Error: \(error)")
+            #endif
+            if (error as NSError).code == NSURLErrorNotConnectedToInternet {
+                throw NetworkError.networkUnavailable
+            }
+            throw NetworkError.unknown(error)
+        }
+    }
+
+    func request<T: Decodable>(
+        endpoint: APIEndpoint,
+        customRequest: URLRequest
+    ) async throws -> T {
+        var request = customRequest
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // Add auth token if required
+        if endpoint.requiresAuth {
+            if let token = tokenStorage.getToken() {
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            } else {
+                throw NetworkError.unauthorized
+            }
+        }
+
+        #if DEBUG
+        print("🌐 [CUSTOM] \(request.url?.absoluteString ?? "")")
+        if let authHeader = request.value(forHTTPHeaderField: "Authorization") {
+            print("🔑 Authorization: \(authHeader)")
+        }
+        #endif
+
+        do {
+            let (data, response) = try await session.data(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw NetworkError.unknown(NSError(domain: "Invalid response", code: -1))
+            }
+
+            #if DEBUG
+            print("📥 Response [\(httpResponse.statusCode)]")
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("📥 Response Body: \(responseString)")
+            }
+            #endif
+
+            switch httpResponse.statusCode {
+            case 200...299:
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                do {
+                    return try decoder.decode(T.self, from: data)
+                } catch {
+                    #if DEBUG
+                    print("❌ Decoding Error: \(error)")
+                    #endif
+                    throw NetworkError.decodingError(error)
+                }
+            case 401:
+                tokenStorage.clearToken()
+                throw NetworkError.unauthorized
+            case 403:
+                throw NetworkError.forbidden
+            case 404:
+                throw NetworkError.notFound
+            default:
                 if let errorResponse = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
                     throw NetworkError.serverError(errorResponse.error ?? errorResponse.message ?? "서버 오류가 발생했습니다.")
                 }
